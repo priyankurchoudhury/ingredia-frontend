@@ -207,6 +207,14 @@ const IngredientInput = ({ onSubmit, loading }) => {
         <button onClick={() => addIngredient()} className="add-btn">
           Add
         </button>
+        {ingredients.length > 0 && (
+          <button
+            onClick={() => setIngredients([])}
+            className="clear-btn"
+          >
+            Clear
+          </button>
+        )}
       </div>
 
       {/* AI preference text box */}
@@ -237,7 +245,7 @@ const IngredientInput = ({ onSubmit, loading }) => {
         className="cook-btn"
         disabled={ingredients.length === 0 || loading}
       >
-        {loading ? 'Ingredia is cooking...' : 'Find recipes with Ingredia'}
+        {loading ? 'AI is cooking...' : 'Find recipes with AI'}
       </button>
     </div>
   );
