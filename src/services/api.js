@@ -1,11 +1,9 @@
 import axios from 'axios';
 
-// Create an axios instance with the backend URL
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
 });
 
-// This runs BEFORE every request — attaches the login token
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem('token');
   if (token) {
@@ -14,21 +12,20 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-// Auth API calls
+// Auth
 export const signup = (formData) => API.post('/auth/signup', formData);
 export const login = (formData) => API.post('/auth/login', formData);
+export const forgotPassword = (email) => API.post('/auth/forgot-password', { email });
+export const resetPassword = (email, token, newPassword) =>
+  API.post('/auth/reset-password', { email, token, newPassword });
 
-// Recipe API calls
+// Recipes
 export const generateRecipes = (ingredients, userPreference) =>
   API.post('/recipes/generate', { ingredients, userPreference });
-
-export const saveRecipe = (recipeData) =>
-  API.post('/recipes/save', recipeData);
-
+export const saveRecipe = (recipeData) => API.post('/recipes/save', recipeData);
 export const getFavorites = () => API.get('/recipes/favorites');
+export const deleteFavorite = (id) => API.delete(`/recipes/favorites/${id}`);
 
-export const deleteFavorite = (id) =>
-  API.delete(`/recipes/favorites/${id}`);
-
+// Ingredients
 export const searchIngredients = (query) =>
-    API.get(`/ingredients/search?q=${encodeURIComponent(query)}`);
+  API.get(`/ingredients/search?q=${encodeURIComponent(query)}`);
