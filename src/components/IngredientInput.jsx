@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { searchIngredients } from '../services/api';
+import { getIngredientEmoji, getTagEmoji } from '../utils/emojis';
 import './IngredientInput.css';
 
 const quickTags = [
@@ -145,7 +146,7 @@ const IngredientInput = ({ onSubmit, loading }) => {
       <div className="tags-container">
         {ingredients.map((ing, index) => (
           <span key={index} className="ingredient-tag">
-            {capitalize(ing)}
+            {getIngredientEmoji(ing)} {capitalize(ing)}
             <button
               className="tag-remove"
               onClick={() => removeIngredient(index)}
@@ -186,7 +187,7 @@ const IngredientInput = ({ onSubmit, loading }) => {
                   onMouseEnter={() => setHighlightIndex(i)}
                 >
                   <span className="autocomplete-name">
-                    {capitalize(item.name)}
+                    {getIngredientEmoji(item.name)} {capitalize(item.name)}
                   </span>
                   <span className="autocomplete-category">
                     {item.category}
@@ -233,7 +234,7 @@ const IngredientInput = ({ onSubmit, loading }) => {
               className={`quick-tag ${selectedTags.includes(tag) ? 'selected' : ''}`}
               onClick={() => toggleQuickTag(tag)}
             >
-              {tag}
+              {getTagEmoji(tag)} {tag}
             </button>
           ))}
         </div>

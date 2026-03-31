@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { saveRecipe, deleteFavorite } from '../services/api';
+import { getIngredientEmoji, getTagEmoji } from '../utils/emojis';
 import Modal from './Modal';
 import './RecipeCard.css';
 
@@ -89,20 +90,20 @@ const RecipeCard = ({ recipe, isSaved, favoriteId, onToggleFavorite }) => {
 
       <div className="recipe-stats">
         <span className="stat">
-          <strong>{recipe.cookTime}</strong> cook
+          ⏱️ <strong>{recipe.cookTime}</strong>
         </span>
         <span className="stat">
-          <strong>{recipe.calories}</strong> kcal
+          🔥 <strong>{recipe.calories}</strong> kcal
         </span>
         <span className="stat">
-          <strong>{recipe.difficulty}</strong>
+          {recipe.difficulty === 'Easy' ? '🟢' : recipe.difficulty === 'Medium' ? '🟡' : '🔴'} <strong>{recipe.difficulty}</strong>
         </span>
       </div>
 
       {recipe.tags && (
         <div className="recipe-tags">
           {recipe.tags.map((tag, i) => (
-            <span key={i} className="recipe-tag">{tag}</span>
+            <span key={i} className="recipe-tag">{getTagEmoji(tag)} {tag}</span>
           ))}
         </div>
       )}
@@ -120,19 +121,19 @@ const RecipeCard = ({ recipe, isSaved, favoriteId, onToggleFavorite }) => {
           {/* Nutrition */}
           <div className="nutrition-grid">
             <div className="nut-box">
-              <div className="nut-val">{recipe.calories}</div>
+              <div className="nut-val">🔥 {recipe.calories}</div>
               <div className="nut-label">Calories</div>
             </div>
             <div className="nut-box">
-              <div className="nut-val">{recipe.protein}</div>
+              <div className="nut-val">💪 {recipe.protein}</div>
               <div className="nut-label">Protein</div>
             </div>
             <div className="nut-box">
-              <div className="nut-val">{recipe.fat}</div>
+              <div className="nut-val">🥑 {recipe.fat}</div>
               <div className="nut-label">Fat</div>
             </div>
             <div className="nut-box">
-              <div className="nut-val">{recipe.carbs}</div>
+              <div className="nut-val">🍞 {recipe.carbs}</div>
               <div className="nut-label">Carbs</div>
             </div>
           </div>
@@ -141,7 +142,7 @@ const RecipeCard = ({ recipe, isSaved, favoriteId, onToggleFavorite }) => {
           <h4 className="detail-heading">Ingredients</h4>
           <ul className="detail-list">
             {recipe.ingredients.map((ing, i) => (
-              <li key={i}>{ing}</li>
+              <li key={i}>{getIngredientEmoji(ing)} {ing}</li>
             ))}
           </ul>
 
